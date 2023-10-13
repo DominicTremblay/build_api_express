@@ -1,0 +1,277 @@
+<!DOCTYPE HTML>
+<!--
+	Dopetrope by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html lang="en">
+
+<head>
+	<title>Building an API - Setup Instructions</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<link rel="stylesheet" href="assets/css/main.css" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.min.css">
+</head>
+
+<body class="no-sidebar is-preload">
+	<div id="page-wrapper">
+
+		<!-- Header -->
+		<section id="header">
+
+			<!-- Logo -->
+			<h1><a href="index.html">Setup Instructions</a></h1>
+
+			<!-- Nav -->
+			<nav id="nav">
+				<ul>
+
+					<li class="current"><a href="index.html">Home</a></li>
+				</ul>
+			</nav>
+
+		</section>
+
+		<!-- Main -->
+		<section id="main">
+			<div class="container">
+				<!-- Content -->
+
+
+
+				<article class="box post">
+					<section>
+						<header>
+							<ul class="dates">
+								<li>
+									<span class="date">Initial <strong>1.</strong></span>
+									<h2>Initial Setup</h2>
+								</li>
+							</ul>
+						</header>
+
+						<p>
+						<h3>1. Create the following folder structure:</h3>
+						</p>
+
+						<img src="images/folder_structure.png" alt="Project Folder Structure">
+
+						<p>
+						<h3>2. Initialize Git and npm</h3>
+
+<pre><code class="language-shell">npm init -y
+git init</code></pre>
+
+						<ul>
+							<li>set up a new github repo and add the remote to your local git</li>
+							<li>commit and push the changes</li>
+							<li>add a <strong>.gitignore</strong> file and ignore the <strong>node_modules</strong> folder and <strong>.env</strong></li>
+						</ul>
+
+						<p>
+							<h3>1. Create the following folder structure:</h3>
+							</p>
+
+						</p>
+
+					</section>
+
+					<section>
+						<header>
+							<ul class="dates">
+								<li>
+									<span class="date">Express <strong>2.</strong></span>
+									<h2>Set Up Express/Prisma/Typescript</h2>
+								</li>
+							</ul>
+						</header>
+						<p>
+
+						<h3>1. Install Express JS</h3>
+
+						<p>
+						<pre><code class="language-shell">npm i express</code></pre>
+						</p>
+
+						<h3>2. Install Prisma with Typescript</h3>
+
+						<p>
+						<pre><code class="language-shell">npm i typescript ts-node @types/node prisma</code></pre>
+						</p>
+
+						<h3>3. Create the Typescript Config File</h3>
+
+
+						create a <strong>tsconfig.json</strong> file at the root with the following content:
+
+<pre><code class="language-js">{
+	"compilerOptions": {
+	"sourceMap": true,
+	"outDir": "dist",
+	"lib": ["esnext"],
+	"esModuleInterop": true
+	}
+}</code></pre>
+
+
+						<h3>4. Install Middleware</h3>
+
+						Let's install <strong>morgan</strong> and <strong>cors</strong> middleware:
+
+
+						<pre><code class="language-shell">npm i morgan cors</code></pre>
+
+						<h3>5. Create the Express Server</h3>
+
+
+						Add the following code in your <strong>server.ts</strong> file:
+
+<pre><code class="language-js">import express from 'express';
+	import express from 'express';
+	import morgan from 'morgan';
+	import cors from 'cors';
+	
+	const PORT = process.env.port || 3001;
+	
+	const app = express();
+	
+	app.use(morgan('dev'));
+	
+	app.use(cors());
+	
+	app.use(express.json());
+	app.use(express.urlencoded({ extended: true }));
+	
+	app.get('/', (req, res) => {
+		res.json({ msg: 'Welcome to our app' });
+	});
+	
+	app.use((req, res, next) => {
+		const err = new Error(`${req.method} ${req.url} Not Found`) as any;
+		err.status = 404;
+		next(err);
+	});
+	
+	app.use((err, req, res, next) => {
+		console.error(err);
+		res.status(err.status || 500);
+		res.json({
+			error: {
+				message: err.message,
+			},
+		});
+	});
+	
+	app.listen(PORT, () =>
+		console.log(`Server is listening on port ${PORT} in ${app.settings.env} mode`)
+	);</code></pre>
+
+
+						<p>
+						<h3>6. Add The Hot-Reload</h3>
+						</p>
+
+						<p>A. Create the <strong>nodemon.json</strong> file with the following content</p>
+
+<pre><code class="language-js">{
+	"ignore": [
+	"**/*.test.ts",
+	"**/*.spec.ts",
+	"node_modules"
+	],
+	"watch": [
+	"src"
+	],
+	"exec": "npm start",
+	"ext": "ts"
+}</code></pre>
+
+						<p>B. Add The dev and start scripts to <strong> package.json</strong></p>
+
+<pre><code class="language-js">"scripts": {
+	"start": "ts-node server.ts",
+	"dev": "nodemon"
+},</code></pre>
+
+						<p>C. If you don't have nodemon installed, you need to install it:</p>
+
+						<pre><code class="language-shell">npm i nodemon</code></pre>
+
+
+						You can start the server by typing <code class="language-shell">npm run dev</code>
+
+						</p>
+					</section>
+
+					<section>
+						<header>
+							<ul class="dates">
+								<li>
+									<span class="date">Prisma <strong>3.</strong></span>
+									<h2>Install the Prisma Client</h2>
+								</li>
+							</ul>
+						</header>
+						<p>
+			
+						<h3>1. Install The Prisma Client</h3>
+
+
+						<pre><code class="language-shell">npm i @prisma/client</code></pre>
+			
+						
+				<p><h3>Create the Client</h3></p>
+
+				<p>Add the following content to the <strong>db/index.ts</strong> file:</p>
+			
+			 <pre><code class="language-js">import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
+
+export default prisma;
+			 </code></pre>
+						
+			
+						</p>
+					</section>
+
+				
+				</article>
+
+			</div>
+		</section>
+
+
+
+
+	
+	</article>
+
+</div>
+</section>
+
+		<!-- Footer -->
+		<section id="footer">
+			<div class="container">
+				<div class="row">
+	
+				</div>
+			</div>
+		</section>
+
+	</div>
+
+	<!-- Scripts -->
+	<script src="assets/js/jquery.min.js"></script>
+	<script src="assets/js/jquery.dropotron.min.js"></script>
+	<script src="assets/js/browser.min.js"></script>
+	<script src="assets/js/breakpoints.min.js"></script>
+	<script src="assets/js/util.js"></script>
+	<script src="assets/js/main.js"></script>
+
+</body>
+
+</html>
