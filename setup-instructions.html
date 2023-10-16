@@ -62,18 +62,19 @@
 						<p>
 						<h3>2. Initialize Git and npm</h3>
 
-<pre><code class="language-shell">npm init -y
-git init</code></pre>
+						<pre><code class="language-shell-session">npm init -y
+								git init</code></pre>
 
 						<ul>
 							<li>set up a new github repo and add the remote to your local git</li>
 							<li>commit and push the changes</li>
-							<li>add a <strong>.gitignore</strong> file and ignore the <strong>node_modules</strong> folder and <strong>.env</strong></li>
+							<li>add a <strong>.gitignore</strong> file and ignore the <strong>node_modules</strong> folder and
+								<strong>.env</strong></li>
 						</ul>
 
 						<p>
-							<h3>1. Create the following folder structure:</h3>
-							</p>
+						<h3>1. Create the following folder structure:</h3>
+						</p>
 
 						</p>
 
@@ -93,13 +94,13 @@ git init</code></pre>
 						<h3>1. Install Express JS</h3>
 
 						<p>
-						<pre><code class="language-shell">npm i express</code></pre>
+						<pre><code class="language-shell-session">npm i express</code></pre>
 						</p>
 
 						<h3>2. Install Prisma with Typescript</h3>
 
 						<p>
-						<pre><code class="language-shell">npm i typescript ts-node @types/node prisma</code></pre>
+						<pre><code class="language-shell-session">npm i typescript ts-node @types/node prisma</code></pre>
 						</p>
 
 						<h3>3. Create the Typescript Config File</h3>
@@ -107,14 +108,14 @@ git init</code></pre>
 
 						create a <strong>tsconfig.json</strong> file at the root with the following content:
 
-<pre><code class="language-js">{
-	"compilerOptions": {
-	"sourceMap": true,
-	"outDir": "dist",
-	"lib": ["esnext"],
-	"esModuleInterop": true
-	}
-}</code></pre>
+						<pre><code class="language-js">{
+								"compilerOptions": {
+								"sourceMap": true,
+								"outDir": "dist",
+								"lib": ["esnext"],
+								"esModuleInterop": true
+								}
+								}</code></pre>
 
 
 						<h3>4. Install Middleware</h3>
@@ -122,52 +123,52 @@ git init</code></pre>
 						Let's install <strong>morgan</strong> and <strong>cors</strong> middleware:
 
 
-						<pre><code class="language-shell">npm i morgan cors</code></pre>
+						<pre><code class="language-shell-session">npm i morgan cors</code></pre>
 
 						<h3>5. Create the Express Server</h3>
 
 
 						Add the following code in your <strong>server.ts</strong> file:
 
-<pre><code class="language-js">import express from 'express';
-	import express from 'express';
-	import morgan from 'morgan';
-	import cors from 'cors';
-	
-	const PORT = process.env.port || 3001;
-	
-	const app = express();
-	
-	app.use(morgan('dev'));
-	
-	app.use(cors());
-	
-	app.use(express.json());
-	app.use(express.urlencoded({ extended: true }));
-	
-	app.get('/', (req, res) => {
-		res.json({ msg: 'Welcome to our app' });
-	});
-	
-	app.use((req, res, next) => {
-		const err = new Error(`${req.method} ${req.url} Not Found`) as any;
-		err.status = 404;
-		next(err);
-	});
-	
-	app.use((err, req, res, next) => {
-		console.error(err);
-		res.status(err.status || 500);
-		res.json({
-			error: {
-				message: err.message,
-			},
-		});
-	});
-	
-	app.listen(PORT, () =>
-		console.log(`Server is listening on port ${PORT} in ${app.settings.env} mode`)
-	);</code></pre>
+						<pre><code class="language-js">import express from 'express';
+								import express from 'express';
+								import morgan from 'morgan';
+								import cors from 'cors';
+
+								const PORT = process.env.port || 3001;
+
+								const app = express();
+
+								app.use(morgan('dev'));
+
+								app.use(cors());
+
+								app.use(express.json());
+								app.use(express.urlencoded({ extended: true }));
+
+								app.get('/', (req, res) => {
+								res.json({ msg: 'Welcome to our app' });
+								});
+
+								app.use((req, res, next) => {
+								const err = new Error(`${req.method} ${req.url} Not Found`) as any;
+								err.status = 404;
+								next(err);
+								});
+
+								app.use((err, req, res, next) => {
+								console.error(err);
+								res.status(err.status || 500);
+								res.json({
+								error: {
+								message: err.message,
+								},
+								});
+								});
+
+								app.listen(PORT, () =>
+								console.log(`Server is listening on port ${PORT} in ${app.settings.env} mode`)
+								);</code></pre>
 
 
 						<p>
@@ -176,32 +177,32 @@ git init</code></pre>
 
 						<p>A. Create the <strong>nodemon.json</strong> file with the following content</p>
 
-<pre><code class="language-js">{
-	"ignore": [
-	"**/*.test.ts",
-	"**/*.spec.ts",
-	"node_modules"
-	],
-	"watch": [
-	"src"
-	],
-	"exec": "npm start",
-	"ext": "ts"
-}</code></pre>
+						<pre><code class="language-js">{
+								"ignore": [
+								"**/*.test.ts",
+								"**/*.spec.ts",
+								"node_modules"
+								],
+								"watch": [
+								"src"
+								],
+								"exec": "npm start",
+								"ext": "ts"
+								}</code></pre>
 
 						<p>B. Add The dev and start scripts to <strong> package.json</strong></p>
 
-<pre><code class="language-js">"scripts": {
-	"start": "ts-node server.ts",
-	"dev": "nodemon"
-},</code></pre>
+						<pre><code class="language-js">"scripts": {
+								"start": "ts-node server.ts",
+								"dev": "nodemon"
+								},</code></pre>
 
 						<p>C. If you don't have nodemon installed, you need to install it:</p>
 
-						<pre><code class="language-shell">npm i nodemon</code></pre>
+						<pre><code class="language-shell-session">npm i nodemon</code></pre>
 
 
-						You can start the server by typing <code class="language-shell">npm run dev</code>
+						You can start the server by typing <code class="language-shell-session">npm run dev</code>
 
 						</p>
 					</section>
@@ -216,29 +217,57 @@ git init</code></pre>
 							</ul>
 						</header>
 						<p>
-			
+
 						<h3>1. Install The Prisma Client</h3>
 
 
-						<pre><code class="language-shell">npm i @prisma/client</code></pre>
-			
-						
-				<p><h3>Create the Client</h3></p>
+						<pre><code class="language-shell-session">npm i @prisma/client</code></pre>
 
-				<p>Add the following content to the <strong>db/index.ts</strong> file:</p>
-			
-			 <pre><code class="language-js">import { PrismaClient } from "@prisma/client";
 
-const prisma = new PrismaClient();
+						<p>
+						<h3>Create the Client</h3>
+						</p>
 
-export default prisma;
-			 </code></pre>
-						
-			
+						<p>Add the following content to the <strong>db/index.ts</strong> file:</p>
+
+						<pre><code class="language-js">import { PrismaClient } from "@prisma/client";
+
+								const prisma = new PrismaClient();
+
+								export default prisma;
+							</code></pre>
+
+
 						</p>
 					</section>
 
-				
+					<section>
+						<header>
+							<ul class="dates">
+								<li>
+									<span class="date"><a name="postgres"></a>Postgres <strong>4.</strong></span>
+									<h2>Create the Postgres Database</h2>
+								</li>
+							</ul>
+						</header>
+
+						<p>
+
+							<h4>Execute the following command in the terminal to create the database:</h4>
+
+							<pre><code class="language-shell-session">createdb &lt;dbname&gt; -O &lt;dbuser&gt;</code></pre>
+
+							<ul>
+								<li><strong>&lt;dbname&gt;</strong> is your database name. I'll be using <strong>fuber.</strong></li>
+								<li><strong>&lt;dbuser&gt</strong> is your database user. I'll be using <strong>labber</strong> as my user.</li>
+								<li>Entering the command needs to be entered in the terminal, but <strong>not</strong> at the <strong>PSQL></strong> prompt</li>
+							</ul>
+
+							<pre><code class="language-shell-session">createdb fuber -O labber</code></pre>
+						</p>
+					</section>
+
+
 				</article>
 
 			</div>
@@ -247,20 +276,20 @@ export default prisma;
 
 
 
-	
-	</article>
 
-</div>
-</section>
+		</article>
 
-		<!-- Footer -->
-		<section id="footer">
-			<div class="container">
-				<div class="row">
-	
-				</div>
+	</div>
+	</section>
+
+	<!-- Footer -->
+	<section id="footer">
+		<div class="container">
+			<div class="row">
+
 			</div>
-		</section>
+		</div>
+	</section>
 
 	</div>
 
